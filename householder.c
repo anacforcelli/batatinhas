@@ -44,18 +44,16 @@ void householder (matrix* A){
         double* w = malloc((n-k)*sizeof(double));
         for (int i = 0; i < n-k ; i++)
             w[i]=(1/sqrt(2*RSQ))*v[i];
-
-        //step 6
+          
+        //step 6 - check
         double* u = malloc((n-k)*sizeof(double));
-        int v_iter_step_6 = v_iter;
-        for (int j = 0; j<n-k; j++) {
+        for (int j = k; j < n; j++) {
             u[j]=0;
-            for (int i = 1 ; i < n-k-j ; i++) {
-                v_iter_step_6++;
-                u[j]+= A_vec[v_iter_step_6] * v[i+k];
+            for (int i = k+1 ; i < n ; i++) {
+                int x = convert_indices(j, i, n);
+                u[j]+= A_vec[x] * v[i];
             }
             u[j]/=RSQ;
-            v_iter_step_6++;
         }
 
         //step 7
@@ -70,25 +68,29 @@ void householder (matrix* A){
             z[j] = u[j] - (0.5 * PROD/RSQ)*v[j];
         }
 
-        //step 9
-        int v_iter_step_9 = v_iter + (n-k) +1; //1 elemento após o elemento da diagonal principal     
+        //step 9   
         for (int l = k+1; l < n-1; l++){
 
             //step 11
-            A_vec[v_iter_step_9]-=2*v[l]*z[l]; 
+            A_vec[convert_indices(l, l, n)]-=2*v[l]*z[l]; 
 
             //step 10
             for (int j = l+1; j<n; j++) {
-                A_vec[v_iter_step_9] -= v[l]*z[j] + v[j]*z[l];
-                v_iter_step_9++;
-            }
-            v_iter_step_9++;       
+                A_vec[convert_indices(j, l, n)] -= v[l]*z[j] + v[j]*z[l];
+                
+            } 
         }
-        A_vec[v_iter_step_9] -= 2*v[n-k-1]*z[n-k-1];
+        //step 12
+        A_vec[convert_indices(n-1, n-1, n)] -= 2*v[n-k-1]*z[n-k-1];
+        
+        //step 13
+        for (int j = k+2; j < n; j++){
+            A_vec[convert_indices(k, j, n)] = 0;
+        }
 
+        //step 14
         A_vec[v_iter+1] -= v[k+1]*z[k];
         //atualizacao do iterador 
         v_iter += n-k;
-   }
-
+    }
 }
