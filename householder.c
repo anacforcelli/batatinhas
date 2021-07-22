@@ -48,7 +48,7 @@ void householder (matrix*A, matrix*T, matrix*H){
         //step 5 - check
         //notar que para todos os malloc's, os elementos antes de k 
         //nao serao utilizados, logo nao preciso inicializá-los
-        double* v = malloc(n*sizeof(double));
+        double* v = meu_malloc(2*n*sizeof(double));
         v[k]= 0;
         v[k+1] = A_vec[convert_indices(k+1, k, n)] - alpha;
         for (int j = k+2; j < n; j++) {
@@ -56,7 +56,7 @@ void householder (matrix*A, matrix*T, matrix*H){
         }
           
         //step 6 - check
-        double* u = malloc(n*sizeof(double));
+        double* u = meu_malloc(2*n*sizeof(double));
         for (int j = k; j < n; j++) {
             u[j]=0;
             for (int i = k+1 ; i < n ; i++) {
@@ -72,7 +72,7 @@ void householder (matrix*A, matrix*T, matrix*H){
         }
 
         //step 8
-        double* z = malloc(n*sizeof(double));
+        double* z = meu_malloc  (2*n*sizeof(double));
         for (int j = k; j < n; j++) {
             z[j] = u[j] - (0.5 * PROD/RSQ)*v[j];
         }
@@ -103,14 +103,14 @@ void householder (matrix*A, matrix*T, matrix*H){
         free(u);
 
         // calcular w
-        double* w = malloc(n*sizeof(double));
+        double* w = meu_malloc(2*n*sizeof(double));
         for (int i = k; i < n ; i++)
             w[i]=(1/sqrt(2*RSQ))*v[i];
 
         // com w, atualizar a matriz H_k
         for (int i=k+1; i<n; i++)
             for (int j=k+1; j<=i; j++)
-                H_wi[convert_indices(i, j, n)] -=  2*w[i]*w[j]; 
+                H_wi[convert_indices(i, j, n)] -=  2.0*w[i]*w[j]; 
 
         //atualizar a matriz H a cada iteracao
         matrix* H_wi_m = zeros(n);

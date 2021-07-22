@@ -1,12 +1,16 @@
 #include "aux.h"
+#include <stdio.h>
+
+
+void* meu_malloc(int size) { printf("malloc(%d)\n", size); return malloc(size);}
 
 matrix* zeros(int n){
     matrix *m;
     int i;
-    m = malloc(sizeof(matrix));
+    m = meu_malloc(sizeof(matrix));
     m->rows = n;
     m->cols = n;
-    m->elem = malloc(n * sizeof(double *));
+    m->elem = meu_malloc(n * sizeof(double *));
     for (i = 0; i < n; i++) {
         m->elem[i] = calloc(n, sizeof(double));
     }
@@ -85,16 +89,15 @@ void symm_matrix_to_vector(double* A_vec, matrix* A){
     }
 }
 
-void swap(int* a, int* b){
-    int temp = *a;
-    *a = *b;
-    *b = temp;
-}
-
 //converte os indices de uma matriz comum para acessar o vetor
 int convert_indices(int i,int j, int n){
-    if (i > j)
-        swap(&i, &j);
+    if (i>=n || i<0 || j>=n || j<0 )
+        printf("errouuuuu");
+    if (i > j){
+        int temp = i;
+        i = j;
+        j = temp;
+    }
     int x = i*n + j - (1+i)*(i)/2;
     return x;
 }

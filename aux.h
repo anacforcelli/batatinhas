@@ -9,7 +9,10 @@ struct matrix {
   double **elem ;
 };
 
+
 typedef struct matrix matrix;
+
+void* meu_malloc(int size);
 
 matrix* zeros(int n);
 
