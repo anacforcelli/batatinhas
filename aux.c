@@ -84,3 +84,10 @@ void symm_matrix_to_vector(double* A_vec, matrix* A){
         }
     }
 }
+
+//converte os indices de uma matriz comum para acessar o vetor
+int convert_indices(int i,int j, int n){
+    int x = i*n + j - (1+i)*(i)/2;
+    return x;
+}
+   

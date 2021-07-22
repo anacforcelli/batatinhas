@@ -25,3 +25,4 @@ void multiply_sq_matrix(matrix*res, matrix*A, matrix*B, int n);
 void print_matrix(matrix* A, int n);
 
 void symm_matrix_to_vector(double* v, matrix* A);
+int convert_indices(int i,int j, int n);
