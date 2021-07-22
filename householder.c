@@ -3,7 +3,8 @@
 #include <math.h>
 #include <stdlib.h>
 
-void householder (matrix* A){ 
+//A partir de uma matriz A, retorna sua forma tridiagonal e a matriz H das transformações. 
+void householder (matrix*A, matrix*T, matrix*H){ 
 
     //Algoritmo baseado na seção 9.4 da 10a edição do Numerical Analysis, BURDEN-FAIRES.
     int n = A->rows;
@@ -14,6 +15,13 @@ void householder (matrix* A){
 
     double*P = malloc(((pow(n, 2)+n)/2)*sizeof(double)); //P é o vetor que reresenta a matriz
                                                          //das transformacoes
+    for (int i=0; i<n; i++)                              //inicializado com identidade
+        for (int j=0; j<n; j++) 
+            if (i==j) 
+                P[convert_indices(i, j, n)]=1;
+            else
+                P[convert_indices(i, j, n)]=0;            
+    
 
     //step 1
     for (int k = 0; k < n-2; k++) { 
@@ -36,19 +44,17 @@ void householder (matrix* A){
         double RSQ = pow(alpha, 2) - alpha*A_vec[convert_indices(k+1, k, n)];
         
         //step 5 - check
-        double* v = malloc((n-k)*sizeof(double));
+        //notar que para todos os malloc's, os elementos antes de k 
+        //nao serao utilizados, logo nao preciso inicializá-los
+        double* v = malloc(n*sizeof(double));
         v[k]= 0;
         v[k+1] = A_vec[convert_indices(k+1, k, n)] - alpha;
         for (int j = k+2; j < n; j++) {
             v[j]=A_vec[convert_indices(j, k, n)];
         }
-
-        double* w = malloc((n-k)*sizeof(double)+1);
-        for (int i = 0; i < n-k ; i++)
-            w[i]=(1/sqrt(2*RSQ))*v[i];
           
         //step 6 - check
-        double* u = malloc((n-k)*sizeof(double)+1);
+        double* u = malloc(n*sizeof(double));
         for (int j = k; j < n; j++) {
             u[j]=0;
             for (int i = k+1 ; i < n ; i++) {
@@ -64,7 +70,7 @@ void householder (matrix* A){
         }
 
         //step 8
-        double* z = malloc((n-k)*sizeof(double)+1);
+        double* z = malloc(n*sizeof(double));
         for (int j = k; j < n; j++) {
             z[j] = u[j] - (0.5 * PROD/RSQ)*v[j];
         }
@@ -93,7 +99,21 @@ void householder (matrix* A){
 
         free(z);
         free(u);
+
+        // calcular w
+        double* w = malloc(n*sizeof(double)+1);
+        for (int i = k; i < n ; i++)
+            w[i]=(1/sqrt(2*RSQ))*v[i];
+
+        // com w, atualizar o vetor P
+        for (int i=k+1; i<n; i++)
+            for (int j=k+1; j<n; j++)
+                P[convert_indices(i, j, n)] -=  2*w[i]*w[j];        
+        
         free(v);
         free(w);
     }
+    
+    vector_to_symm_matrix(A_vec, T);
+    vector_to_symm_matrix(P, H);
 }

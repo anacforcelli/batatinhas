@@ -80,3 +80,50 @@ int QRalgorithm(matrix* A, matrix* V, matrix* AV, int n, int shift){
     copy_matrix(AV, A_QR, n);
     return k;
 }
+
+//igual o QR do EP1, mas a matriz de autovetores é inicializada com a matriz H
+int QRalgorithm_modded(matrix* A, matrix* H, matrix* V, matrix* AV, int n, int shift){
+    matrix* A_QR = zeros(n);
+    copy_matrix(A_QR, A, n);
+    matrix* V_aux = zeros(n);
+
+    //modificacao aqui
+    copy_matrix(V_aux, H, n);
+
+	double eps = 0.000001;
+
+    int	k = 0;
+
+	for (int m = n-1; m > 0; m--) {
+		double mu = 0;
+
+		while (fabs(A_QR->elem[m][m-1]) > eps){
+            matrix* Q = zeros(n);
+            matrix* R = zeros(n);            
+
+            if (k > 0 && shift==1){
+                double d = 0.5 * (A_QR->elem[m-1][m-1] - A_QR->elem[m][m]);
+                if (d>=0)
+                    mu = A_QR->elem[m][m] + d - hypot(d, A_QR->elem[m][m-1]);
+                else
+                    mu = A_QR->elem[m][m] + d + hypot(d, A_QR->elem[m][m-1]);                     
+            }
+            
+            for (int i=0; i<n; i++)
+                A_QR->elem[i][i] -= mu;
+
+            givens(A_QR, Q, R, n);
+			multiply_sq_matrix(A_QR, R, Q, n);
+
+            for (int i=0; i<n; i++)
+                A_QR->elem[i][i] += mu;
+
+			multiply_sq_matrix(V_aux, V_aux, Q, n);
+			k++;
+        }
+        A_QR->elem[m][m-1] = 0.0;
+    }
+    copy_matrix(V, V_aux, n);
+    copy_matrix(AV, A_QR, n);
+    return k;
+}

@@ -4,3 +4,4 @@
 
 void givens(matrix* A, matrix* Q, matrix* R, int n);
 int QRalgorithm(matrix* A, matrix* V, matrix* AV, int n, int shift);
+int QRalgorithm_modded(matrix* A, matrix*H, matrix* V, matrix* AV, int n, int shift);

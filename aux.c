@@ -91,7 +91,6 @@ void swap(int* a, int* b){
     *b = temp;
 }
 
-
 //converte os indices de uma matriz comum para acessar o vetor
 int convert_indices(int i,int j, int n){
     if (i > j)
@@ -100,3 +99,11 @@ int convert_indices(int i,int j, int n){
     return x;
 }
    
+void vector_to_symm_matrix(double*v, matrix* A){
+    int n = A->rows;
+    for(int i=0; i<n; i++)
+        for (int j=0 ; j<n ; j++) {
+           A->elem[i][j] = v[convert_indices(i, j, n)];
+           A->elem[j][i]=A->elem[i][j];
+        }     
+}

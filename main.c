@@ -1,8 +1,31 @@
 #include "householder.h"
 
+void testecuca(matrix* A){
+    int n = A->rows;
+    matrix* H = zeros(n);
+    matrix*T = zeros(n);
+    householder(A, T, H);
+
+    printf("Matriz A:");
+    print_matrix(A, n);
+    printf("\nMatriz T");
+    print_matrix(T, n);
+    printf("\nMatriz H:");
+    print_matrix(H, n);
+
+    matrix* V = zeros(n);
+    matrix* AV = zeros(n);
+    QRalgorithm_modded(T, H, V, AV, n, 1);
+
+    printf("Autovalores:");
+    print_matrix(AV, n);
+}
+
 int main(){
+
+
     matrix* A = zeros(4);
-    
+
     A->elem[0][0] = 4;
     A->elem[1][0] = 1;
     A->elem[0][1] = 1;
@@ -19,7 +42,8 @@ int main(){
     A->elem[2][3] = -2;
     A->elem[3][2] = -2;
     A->elem[3][3] = -1;
-   
-    householder(A);
+
+
+    
     return 1;
 }
