@@ -1,18 +1,26 @@
 #include "aux.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 
-void* meu_malloc(int size) { printf("malloc(%d)\n", size); return malloc(size);}
+void* meu_calloc(int times, int size) { 
+    printf("calloc(%d)\n", times*size); 
+    void* a = calloc(times, size);
+    if(!a){
+        printf("deu ruim aqui");
+    }
+    return a;
+}
 
 matrix* zeros(int n){
     matrix *m;
     int i;
-    m = meu_malloc(sizeof(matrix));
+    m = meu_calloc(1, sizeof(matrix));
     m->rows = n;
     m->cols = n;
-    m->elem = meu_malloc(n * sizeof(double *));
+    m->elem = meu_calloc(n, sizeof(double *));
     for (i = 0; i < n; i++) {
-        m->elem[i] = calloc(n, sizeof(double));
+        m->elem[i] = meu_calloc(n, sizeof(double));
     }
     return m;    
 }

@@ -9,7 +9,7 @@ void householder (matrix*A, matrix*T, matrix*H){
     //Algoritmo baseado na seção 9.4 da 10a edição do Numerical Analysis, BURDEN-FAIRES.
     int n = A->rows;
 
-    double*A_vec = calloc(((pow(n, 2)+n)/2),sizeof(double));
+    double*A_vec = meu_calloc(((pow(n, 2)+n)/2),sizeof(double));
     symm_matrix_to_vector(A_vec, A); //A_vec é o vetor q representa a matriz A,
                                      //coluna a coluna a partir da diagonal principal
 
@@ -17,7 +17,7 @@ void householder (matrix*A, matrix*T, matrix*H){
     identity(H, n);
     
     //Hwi, no entanto, é simétrica.
-    double* H_wi = calloc(((pow(n, 2)+n)/2),sizeof(double));
+    double* H_wi = meu_calloc(((pow(n, 2)+n)/2),sizeof(double));
 
     //step 1
     for (int k = 0; k < n-2; k++) { 
@@ -48,7 +48,7 @@ void householder (matrix*A, matrix*T, matrix*H){
         //step 5 - check
         //notar que para todos os malloc's, os elementos antes de k 
         //nao serao utilizados, logo nao preciso inicializá-los
-        double* v = meu_malloc(2*n*sizeof(double));
+        double* v = meu_calloc(2*n,sizeof(double));
         v[k]= 0;
         v[k+1] = A_vec[convert_indices(k+1, k, n)] - alpha;
         for (int j = k+2; j < n; j++) {
@@ -56,7 +56,7 @@ void householder (matrix*A, matrix*T, matrix*H){
         }
           
         //step 6 - check
-        double* u = meu_malloc(2*n*sizeof(double));
+        double* u = meu_calloc(2*n,sizeof(double));
         for (int j = k; j < n; j++) {
             u[j]=0;
             for (int i = k+1 ; i < n ; i++) {
@@ -72,7 +72,7 @@ void householder (matrix*A, matrix*T, matrix*H){
         }
 
         //step 8
-        double* z = meu_malloc  (2*n*sizeof(double));
+        double* z = meu_calloc(2*n,sizeof(double));
         for (int j = k; j < n; j++) {
             z[j] = u[j] - (0.5 * PROD/RSQ)*v[j];
         }
@@ -103,7 +103,7 @@ void householder (matrix*A, matrix*T, matrix*H){
         free(u);
 
         // calcular w
-        double* w = meu_malloc(2*n*sizeof(double));
+        double* w = meu_calloc(2*n,sizeof(double));
         for (int i = k; i < n ; i++)
             w[i]=(1/sqrt(2*RSQ))*v[i];
 
