@@ -9,7 +9,7 @@ void householder (matrix*A, matrix*T, matrix*H){
     //Algoritmo baseado na seção 9.4 da 10a edição do Numerical Analysis, BURDEN-FAIRES.
     int n = A->rows;
 
-    double*A_vec = malloc(((pow(n, 2)+n)/2)*sizeof(double));
+    double*A_vec = calloc(((pow(n, 2)+n)/2),sizeof(double));
     symm_matrix_to_vector(A_vec, A); //A_vec é o vetor q representa a matriz A,
                                      //coluna a coluna a partir da diagonal principal
 
@@ -17,15 +17,15 @@ void householder (matrix*A, matrix*T, matrix*H){
     identity(H, n);
     
     //Hwi, no entanto, é simétrica.
-    double* H_wi = malloc(((pow(n, 2)+n)/2)*sizeof(double));
+    double* H_wi = calloc(((pow(n, 2)+n)/2),sizeof(double));
 
     //step 1
     for (int k = 0; k < n-2; k++) { 
         
         for (int i=0; i<n; i++){ //inicializado H_wi com identidade
             for (int j=0; j<n; j++) 
-                H_wi[convert_indices(i, j, n)]=0;  
-            H_wi[convert_indices(i, i, n)]=1; 
+                H_wi[convert_indices(i, j, n)]=0.0;  
+            H_wi[convert_indices(i, i, n)]=1.0; 
         }
 
         //step 2 -check
@@ -103,7 +103,7 @@ void householder (matrix*A, matrix*T, matrix*H){
         free(u);
 
         // calcular w
-        double* w = malloc(n*sizeof(double)+1);
+        double* w = malloc(n*sizeof(double));
         for (int i = k; i < n ; i++)
             w[i]=(1/sqrt(2*RSQ))*v[i];
 

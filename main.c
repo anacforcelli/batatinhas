@@ -26,13 +26,13 @@ void testecuca(matrix* A){
     printf("\nAutovetores:");
     print_matrix(V, n);    
     return;
-}
+}//a
 
 
 
 int main(){
 
-    FILE* f = fopen("input-test", "r");
+    FILE* f = fopen("input-b", "r");
     int n;
     fscanf(f, "%d", &n);
 
@@ -43,6 +43,7 @@ int main(){
             fscanf(f, "%lf", &A->elem[i][j]);
 
     testecuca(A);
+    
     fclose(f);
     return 1;
 
