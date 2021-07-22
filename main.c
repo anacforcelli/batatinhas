@@ -1,4 +1,5 @@
 #include "householder.h"
+#include <stdio.h>
 
 void testecuca(matrix* A){
     int n = A->rows;
@@ -15,35 +16,34 @@ void testecuca(matrix* A){
 
     matrix* V = zeros(n);
     matrix* AV = zeros(n);
-    QRalgorithm_modded(T, H, V, AV, n, 1);
+    transpose(H, H, n);
+    QRalgorithm(T, H, V, AV, n, 0);
 
-    printf("Autovalores:");
-    print_matrix(AV, n);
+    printf("\nAutovalores:\n");
+    for (int i = 0; i<n; i++) 
+        printf("%3.2f, ", AV->elem[i][i]);
+
+    printf("\nAutovetores:");
+    print_matrix(V, n);    
+    return;
 }
+
+
 
 int main(){
 
+    FILE* f = fopen("input-test", "r");
+    int n;
+    fscanf(f, "%d", &n);
 
-    matrix* A = zeros(4);
+    matrix* A = zeros(n);
 
-    A->elem[0][0] = 4;
-    A->elem[1][0] = 1;
-    A->elem[0][1] = 1;
-    A->elem[2][0] = -2;
-    A->elem[0][2] = -2;
-    A->elem[3][0] = 2;
-    A->elem[0][3] = 2;
-    A->elem[1][1] = 2;
-    A->elem[2][1] = 0;
-    A->elem[1][2] = 0;
-    A->elem[3][1] = 1;
-    A->elem[1][3] = 1;
-    A->elem[2][2] = 3;
-    A->elem[2][3] = -2;
-    A->elem[3][2] = -2;
-    A->elem[3][3] = -1;
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j<n; j++) 
+            fscanf(f, "%lf", &A->elem[i][j]);
 
-
-    
+    testecuca(A);
+    fclose(f);
     return 1;
+
 }
