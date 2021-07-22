@@ -13,19 +13,21 @@ void householder (matrix*A, matrix*T, matrix*H){
     symm_matrix_to_vector(A_vec, A); //A_vec é o vetor q representa a matriz A,
                                      //coluna a coluna a partir da diagonal principal
 
-    double*P = malloc(((pow(n, 2)+n)/2)*sizeof(double)); //P é o vetor que reresenta a matriz
-                                                         //das transformacoes
-    for (int i=0; i<n; i++)                              //inicializado com identidade
-        for (int j=0; j<n; j++) 
-            if (i==j) 
-                P[convert_indices(i, j, n)]=1;
-            else
-                P[convert_indices(i, j, n)]=0;            
+    //como H não é simétrica, não é tão custoso utilizá-la como uma matriz cheia
+    identity(H, n);
     
+    //Hwi, no entanto, é simétrica.
+    double* H_wi = malloc(((pow(n, 2)+n)/2)*sizeof(double));
 
     //step 1
     for (int k = 0; k < n-2; k++) { 
         
+        for (int i=0; i<n; i++){ //inicializado H_wi com identidade
+            for (int j=0; j<n; j++) 
+                H_wi[convert_indices(i, j, n)]=0;  
+            H_wi[convert_indices(i, i, n)]=1; 
+        }
+
         //step 2 -check
         double q = 0;
         for (int j = k+1; j < n ; j++) {  
@@ -105,15 +107,19 @@ void householder (matrix*A, matrix*T, matrix*H){
         for (int i = k; i < n ; i++)
             w[i]=(1/sqrt(2*RSQ))*v[i];
 
-        // com w, atualizar o vetor P
+        // com w, atualizar a matriz H_k
         for (int i=k+1; i<n; i++)
-            for (int j=k+1; j<n; j++)
-                P[convert_indices(i, j, n)] -=  2*w[i]*w[j];        
+            for (int j=k+1; j<=i; j++)
+                H_wi[convert_indices(i, j, n)] -=  2*w[i]*w[j]; 
+
+        //atualizar a matriz H a cada iteracao
+        matrix* H_wi_m = zeros(n);
+        vector_to_symm_matrix(H_wi, H_wi_m);
+        multiply_sq_matrix(H, H, H_wi_m, n);
         
         free(v);
         free(w);
-    }
-    
+        free(H_wi);
+    }    
     vector_to_symm_matrix(A_vec, T);
-    vector_to_symm_matrix(P, H);
 }
