@@ -27,8 +27,8 @@ void item_c (){
     }
     
     //inicializar as massas atribuidas a cada no
-    for (int n=0; n<t->n_nos; n++)
-        t->nos[n]->massa=0;
+    for (int i=0; i<t->n_nos; i++)
+        t->nos[i]->massa=0;
 
     for (int i=0 ; i < t->n_barras; i++)
         t->barras[i]->no_1->massa  +=  0.5 * t->ro * t->A * t->barras[i]->comprimento;
@@ -37,10 +37,15 @@ void item_c (){
     //matriz diagonal M = M^(-1/2) 
     double*M = calloc(2*t->n_nos_nao_fixos,sizeof(double));
     for( int i = 0; i < t->n_nos_nao_fixos; i++)
-        M[2*i] = 1/(sqrt(t->nos[i]->massa));
+        M[2*i] = pow(t->nos[i]->massa, -0.5);
     
 
-    //inicializar matriz K
+    //inicializar matriz K de cada barra
+    for (int i = 0; i < t->n_barras; i++) {
+        t->barras[i]->K = zeros(4);
+        
+
+    }
     
 
 
