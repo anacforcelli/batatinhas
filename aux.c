@@ -8,7 +8,7 @@ void* calloc_wrapper(int times, int size) {
     void* a = calloc(2*times, size);
     if(!a){
         printf("deu ruim aqui");
-        exit(-1);
+        exit(1);
     }
     return a;
 }
