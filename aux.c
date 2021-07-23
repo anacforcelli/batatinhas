@@ -8,6 +8,7 @@ void* meu_calloc(int times, int size) {
     void* a = calloc(times, size);
     if(!a){
         printf("deu ruim aqui");
+        exit(-1);
     }
     return a;
 }
@@ -99,8 +100,10 @@ void symm_matrix_to_vector(double* A_vec, matrix* A){
 
 //converte os indices de uma matriz comum para acessar o vetor
 int convert_indices(int i,int j, int n){
-    if (i>=n || i<0 || j>=n || j<0 )
+    if (i>=n || i<0 || j>=n || j<0 ){
         printf("errouuuuu");
+        return -1;
+    }
     if (i > j){
         int temp = i;
         i = j;
