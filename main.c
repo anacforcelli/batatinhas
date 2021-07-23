@@ -2,7 +2,22 @@
 #include "trelica.h"
 #include <stdio.h>
 
-void testecuca(matrix* A){
+
+void teste_autovec(double* autovec, matrix* A, double autoval){
+    int n = A->rows;
+    double* y = calloc (n, sizeof(double));
+
+    for (int i = 0 ; i < n; i++){
+        y[i]=0;
+        for (int j = 0; j<n; j++)
+            y[i] += autovec[i]*A->elem[i][j];
+        y[i]/= autovec[i];
+        printf("%3.2lf ,", y[i]);
+    }    
+    free(y);
+}
+
+void teste(matrix* A){
     int n = A->rows;
     matrix* H = zeros(n);
     matrix*T = zeros(n);
@@ -17,7 +32,6 @@ void testecuca(matrix* A){
 
     matrix* V = zeros(n);
     matrix* AV = zeros(n);
-    transpose(H, H, n);
     QRalgorithm(T, H, V, AV, n);
 
     printf("\nAutovalores:\n");
@@ -26,6 +40,12 @@ void testecuca(matrix* A){
 
     printf("\nAutovetores:");
     print_matrix(V, n);    
+
+    double*autovec = calloc(n, sizeof(double));
+    for (int i = 0 ; i<n; i++)
+        autovec[i] = V->elem[i][0];
+
+    teste_autovec(autovec, A, AV->elem[0][0]);
     return;
 }
 
@@ -48,7 +68,7 @@ int main(){
                 for (int j = 0; j<n; j++) 
                     fscanf(f, "%lf", &A->elem[i][j]);
 
-            testecuca(A);            
+            teste(A);            
             fclose(f);
                    
         } else if (item == 'b') {
@@ -62,13 +82,28 @@ int main(){
                 for (int j = 0; j<n; j++) 
                     fscanf(f, "%lf", &A->elem[i][j]);
 
-            testecuca(A);            
+            teste(A);            
             fclose(f);
 
         } else if (item =='c') {
             item_c();            
         } else if (item == '0')
             run = 0;
+
+        else if (item == 't') {
+            FILE* f = fopen("input-test", "r");
+            int n;
+            fscanf(f, "%d", &n);
+
+            matrix* A = zeros(n);
+
+            for (int i = 0; i < n; i++)
+                for (int j = 0; j<n; j++) 
+                    fscanf(f, "%lf", &A->elem[i][j]);
+
+            teste(A);            
+            fclose(f);
+        } 
     }
     return 1;
 }

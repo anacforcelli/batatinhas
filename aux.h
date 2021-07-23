@@ -9,7 +9,6 @@ struct matrix {
   double **elem ;
 };
 
-
 typedef struct matrix matrix;
 
 void* calloc_wrapper(int times, int size);

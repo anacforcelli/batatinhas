@@ -119,6 +119,7 @@ void householder (matrix*A, matrix*T, matrix*H){
         
         free(v);
         free(w);
+        free(H_wi_m);
     }    
     vector_to_symm_matrix(A_vec, T, n);
 }
