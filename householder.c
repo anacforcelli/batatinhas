@@ -48,7 +48,7 @@ void householder (matrix*A, matrix*T, matrix*H){
         //step 5 - check
         //notar que para todos os malloc's, os elementos antes de k 
         //nao serao utilizados, logo nao preciso inicializá-los
-        double* v = calloc_wrapper(2*n,sizeof(double));
+        double* v = calloc_wrapper(n,sizeof(double));
         v[k]= 0;
         v[k+1] = A_vec[convert_indices(k+1, k, n)] - alpha;
         for (int j = k+2; j < n; j++) {
