@@ -3,9 +3,9 @@
 #include <stdlib.h>
 
 
-void* meu_calloc(int times, int size) { 
+void* calloc_wrapper(int times, int size) { 
     printf("calloc(%d)\n", times*size); 
-    void* a = calloc(times, size);
+    void* a = calloc(2*times, size);
     if(!a){
         printf("deu ruim aqui");
         exit(-1);
@@ -16,12 +16,12 @@ void* meu_calloc(int times, int size) {
 matrix* zeros(int n){
     matrix *m;
     int i;
-    m = meu_calloc(1, sizeof(matrix));
+    m = calloc_wrapper(1, sizeof(matrix));
     m->rows = n;
     m->cols = n;
-    m->elem = meu_calloc(n, sizeof(double *));
+    m->elem = calloc_wrapper(n, sizeof(double *));
     for (i = 0; i < n; i++) {
-        m->elem[i] = meu_calloc(n, sizeof(double));
+        m->elem[i] = calloc_wrapper(n, sizeof(double));
     }
     return m;    
 }

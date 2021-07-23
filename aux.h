@@ -12,7 +12,7 @@ struct matrix {
 
 typedef struct matrix matrix;
 
-void* meu_calloc(int times, int size);
+void* calloc_wrapper(int times, int size);
 
 matrix* zeros(int n);
 

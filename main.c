@@ -1,4 +1,5 @@
 #include "householder.h"
+#include "trelica.h"
 #include <stdio.h>
 
 void testecuca(matrix* A){
@@ -17,7 +18,7 @@ void testecuca(matrix* A){
     matrix* V = zeros(n);
     matrix* AV = zeros(n);
     transpose(H, H, n);
-    QRalgorithm(T, H, V, AV, n, 0);
+    QRalgorithm(T, H, V, AV, n);
 
     printf("\nAutovalores:\n");
     for (int i = 0; i<n; i++) 
@@ -29,22 +30,48 @@ void testecuca(matrix* A){
 }//a
 
 
-
 int main(){
+    printf("EP1 MAP3121\nRodrigo Dias Siqueira e Vitor Angelo Nunes\n");
+    int run = 1;
+        while (run == 1) {
+        printf("\n\n--insira o teste que deseja realizar --a b c: ");
+        char item;
+        scanf("%c", &item);
+        if (item == 'a'){
+            FILE* f = fopen("input-a", "r");
+            int n;
+            fscanf(f, "%d", &n);
 
-    FILE* f = fopen("input-b", "r");
-    int n;
-    fscanf(f, "%d", &n);
+            matrix* A = zeros(n);
 
-    matrix* A = zeros(n);
+            for (int i = 0; i < n; i++)
+                for (int j = 0; j<n; j++) 
+                    fscanf(f, "%lf", &A->elem[i][j]);
 
-    for (int i = 0; i < n; i++)
-        for (int j = 0; j<n; j++) 
-            fscanf(f, "%lf", &A->elem[i][j]);
+            testecuca(A);
+            
+            fclose(f);
+                   
+        } else if (item == 'b') {
+            FILE* f = fopen("input-b", "r");
+            int n;
+            fscanf(f, "%d", &n);
 
-    testecuca(A);
-    
-    fclose(f);
+            matrix* A = zeros(n);
+
+            for (int i = 0; i < n; i++)
+                for (int j = 0; j<n; j++) 
+                    fscanf(f, "%lf", &A->elem[i][j]);
+
+            testecuca(A);
+            
+            fclose(f);
+
+        } else if (item =='c') {
+            item_c();            
+        } else {
+            run = 0;
+        }
+    }
     return 1;
-
 }

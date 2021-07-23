@@ -37,7 +37,7 @@ void givens(matrix* A, matrix* Q, matrix* R, int n){
 }
 
 
-int QRalgorithm(matrix* A, matrix* HT, matrix* V, matrix* AV, int n, int shift){
+int QRalgorithm(matrix* A, matrix* HT, matrix* V, matrix* AV, int n){
     matrix* A_QR = zeros(n);
     copy_matrix(A_QR, A, n);
     matrix* V_aux = zeros(n);
@@ -54,7 +54,7 @@ int QRalgorithm(matrix* A, matrix* HT, matrix* V, matrix* AV, int n, int shift){
             matrix* Q = zeros(n);
             matrix* R = zeros(n);            
 
-            if (k > 0 && shift==1){
+            if (k > 0){
                 double d = 0.5 * (A_QR->elem[m-1][m-1] - A_QR->elem[m][m]);
                 if (d>=0)
                     mu = A_QR->elem[m][m] + d - hypot(d, A_QR->elem[m][m-1]);
