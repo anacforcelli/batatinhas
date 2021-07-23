@@ -4,10 +4,10 @@
 
 
 void* calloc_wrapper(int times, int size) { 
-    printf("calloc(%d)\n", times*size); 
-    void* a = calloc(2*times, size);
+    //printf("calloc(%d)\n", times*size); 
+    void* a = malloc(times*size);
     if(!a){
-        printf("deu ruim aqui");
+        printf("MALLOC FAILED");
         exit(1);
     }
     return a;
@@ -113,11 +113,10 @@ int convert_indices(int i,int j, int n){
     return x;
 }
    
-void vector_to_symm_matrix(double*v, matrix* A){
-    int n = A->rows;
+void vector_to_symm_matrix(double*v, matrix* A, int n){
     for(int i=0; i<n; i++)
         for (int j=0 ; j<n ; j++) {
            A->elem[i][j] = v[convert_indices(i, j, n)];
-           A->elem[j][i]=A->elem[i][j];
+           A->elem[j][i] = v[convert_indices(j, i, n)];
         }     
 }

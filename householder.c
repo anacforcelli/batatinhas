@@ -114,12 +114,11 @@ void householder (matrix*A, matrix*T, matrix*H){
 
         //atualizar a matriz H a cada iteracao
         matrix* H_wi_m = zeros(n);
-        vector_to_symm_matrix(H_wi, H_wi_m);
+        vector_to_symm_matrix(H_wi, H_wi_m, n);
         multiply_sq_matrix(H, H, H_wi_m, n);
         
         free(v);
         free(w);
-        free(H_wi);
     }    
-    vector_to_symm_matrix(A_vec, T);
+    vector_to_symm_matrix(A_vec, T, n);
 }

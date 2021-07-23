@@ -31,5 +31,5 @@ void symm_matrix_to_vector(double* v, matrix* A);
 
 int convert_indices(int i,int j, int n);
 
-void vector_to_symm_matrix(double*v, matrix* A);
+void vector_to_symm_matrix(double*v, matrix* A, int n);
 

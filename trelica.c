@@ -7,5 +7,6 @@ void item_c (){
     fscanf(f, "%d %d %d", &nos, &nos_n_fixos, &barras);
     int ro, E;
     double A;
-    fscanf(f, "%d %f %d", &ro, &A, &E);
+    fscanf(f, "%d %lf %d", &ro, &A, &E);
+    
 }

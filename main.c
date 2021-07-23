@@ -27,14 +27,14 @@ void testecuca(matrix* A){
     printf("\nAutovetores:");
     print_matrix(V, n);    
     return;
-}//a
+}
 
 
 int main(){
     printf("EP1 MAP3121\nRodrigo Dias Siqueira e Vitor Angelo Nunes\n");
     int run = 1;
         while (run == 1) {
-        printf("\n\n--insira o teste que deseja realizar --a b c: ");
+        printf("\n\n--insira o teste que deseja realizar --a b c: (ESCREVA 0 PARA FECHAR)");
         char item;
         scanf("%c", &item);
         if (item == 'a'){
@@ -48,8 +48,7 @@ int main(){
                 for (int j = 0; j<n; j++) 
                     fscanf(f, "%lf", &A->elem[i][j]);
 
-            testecuca(A);
-            
+            testecuca(A);            
             fclose(f);
                    
         } else if (item == 'b') {
@@ -63,15 +62,13 @@ int main(){
                 for (int j = 0; j<n; j++) 
                     fscanf(f, "%lf", &A->elem[i][j]);
 
-            testecuca(A);
-            
+            testecuca(A);            
             fclose(f);
 
         } else if (item =='c') {
             item_c();            
-        } else {
+        } else if (item == '0')
             run = 0;
-        }
     }
     return 1;
 }
