@@ -17,15 +17,15 @@ void householder (matrix*A, matrix*T, matrix*H){
     identity(H, n);
     
     //Hwi, no entanto, é simétrica.
-    double* H_wi = calloc_wrapper(((pow(n, 2)+n)/2),sizeof(double));
+    double* H_w = calloc_wrapper(((pow(n, 2)+n)/2),sizeof(double));
 
     //step 1
     for (int k = 0; k < n-2; k++) { 
         
         for (int i=0; i<n; i++){ //inicializado H_wi com identidade
             for (int j=0; j<n; j++) 
-                H_wi[convert_indices(i, j, n)]=0.0;  
-            H_wi[convert_indices(i, i, n)]=1.0; 
+                H_w[convert_indices(i, j, n)]=0.0;  
+            H_w[convert_indices(i, i, n)]=1.0; 
         }
 
         //step 2 -check
@@ -107,14 +107,14 @@ void householder (matrix*A, matrix*T, matrix*H){
         for (int i = k; i < n ; i++)
             w[i]=(1/sqrt(2*RSQ))*v[i];
 
-        // com w, atualizar a matriz H_k
+        // com w, atualizar a matriz H_w
         for (int i=k+1; i<n; i++)
             for (int j=k+1; j<=i; j++)
-                H_wi[convert_indices(i, j, n)] -=  2.0*w[i]*w[j]; 
+                H_w[convert_indices(i, j, n)] -=  2.0*w[i]*w[j]; 
 
         //atualizar a matriz H a cada iteracao
         matrix* H_wi_m = zeros(n);
-        vector_to_symm_matrix(H_wi, H_wi_m, n);
+        vector_to_symm_matrix(H_w, H_wi_m, n);
         multiply_sq_matrix(H, H, H_wi_m, n);
         
         free(v);

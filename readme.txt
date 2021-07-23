@@ -1,9 +1,12 @@
-abra o terminal na pasta do EP e compile com o Makefile (o qual usa gcc), com o comando:
+Autores:
 
-"make"
+Rodrigo Siqueira:              9425595
+Victor A. N. Notario:         9836822
 
-depois, rode o executável main usando o comando:
+Instruções:
 
-"./main" (isto no no Linux, o Windows pode ser diferente) 
+1. Abra o terminal na pasta do EP e compile com o Makefile (o qual usa gcc), com o comando "make"
+2. Depois, rode o executável main usando o comando "./main" (isto no no Linux) ou ".\main" (se estiver no Windows).
+3. Selecione os testes de acordo com a interface.
 
-e selecione os testes de acordo com a interface.
+Recomendamos usar o terminal maximizado para melhor visualizar os dados, especialmente no item B. 

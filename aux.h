@@ -20,9 +20,10 @@ void identity(matrix *res, int n);
 void transpose(matrix*res, matrix* input, int n);
 
 void copy_matrix(matrix*res, matrix*input, int n);
-void multiply_matrix_scalar(matrix*out, matrix* in, double scalar, int n);
 
+void multiply_matrix_scalar(matrix*out, matrix* in, double scalar, int n);
 void multiply_sq_matrix(matrix*res, matrix*A, matrix*B, int n);
+void multiply_matrix_vector(double* res, matrix* A, double* v);
 
 void print_matrix(matrix* A, int n);
 

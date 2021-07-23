@@ -81,7 +81,7 @@ void multiply_matrix_vector(double* res, matrix* A, double* v){
     for (int i = 0; i<n; i++){
         res[i] = 0;
         for (int j=0; j<n; j++)
-            res[i] += A->elem[i][j]*v[i];
+            res[i] += A->elem[i][j]*v[j];
     }
 }
 

@@ -4,7 +4,6 @@
 
 void item_c();
 
-
 struct no{
     double massa;
     double x, y;
@@ -16,6 +15,7 @@ struct barra {
     no* no_2;
     double angulo;
     double comprimento;
+    matrix* K;
 };
 typedef struct barra barra;
 
