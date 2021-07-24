@@ -13,9 +13,11 @@ typedef struct no no;
 struct barra {
     no* no_1;
     no* no_2;
+    int id_no_1;
+    int id_no_2;
     double angulo;
     double comprimento;
-    matrix* K;
+    matrix* Kij;
 };
 typedef struct barra barra;
 
@@ -28,6 +30,7 @@ struct trelica{
 
     barra** barras;
     no** nos;
+    matrix* K;
 };
 
 typedef struct trelica trelica;
